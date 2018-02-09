@@ -31,6 +31,8 @@ const List<int> _daysInYearPreceedingMonth = const [
   334
 ];
 
+const List<int> _sakamotoHelper = const [0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4];
+
 /// Represents a single day in the Gregorian Calendar
 class GregorianCalendar implements Calendar {
   int _month, _day, _year;
@@ -57,7 +59,11 @@ class GregorianCalendar implements Calendar {
   ///
   /// Same as DateTime.weekday - 1 = Monday, 7 = Sunday
   int get weekday {
-    int zeroBased = dayOfYear % 7;
+    int y = year - ((month <= 2) ? 1 : 0);
+
+    int zeroBased =
+        (y + y ~/ 4 - y ~/ 100 + y ~/ 400 + _sakamotoHelper[month - 1] + day) %
+            7;
     return zeroBased == 0 ? 7 : zeroBased;
   }
 
@@ -136,7 +142,7 @@ class GregorianCalendar implements Calendar {
   }
 
   /// Setting any of these to null treats them as 1 or 0 (year)
-  GregorianCalendar(int year, int month, int day) {
+  GregorianCalendar(int year, [int month = 1, int day = 1]) {
     if (year < 0) {
       throw new RangeError('Year must be positive');
     }
