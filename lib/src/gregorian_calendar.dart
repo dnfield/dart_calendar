@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import './calendar.dart';
 
 const List<int> _daysPerMonth = const [
@@ -181,7 +179,11 @@ class GregorianCalendar implements Calendar {
   }
 
   /// determines if this date is before (-1), after (1), or the same (0) as other
-  int compareTo(GregorianCalendar other) {
+  int compareTo(Calendar other) {
+    if (other is! GregorianCalendar) {
+      throw new UnsupportedError(
+          'Comparing Gregorian and non-Gregorian dates not supported at this time');
+    }
     return toInt().compareTo(other?.toInt());
   }
 
