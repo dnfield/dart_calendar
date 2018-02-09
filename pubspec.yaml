@@ -1,0 +1,10 @@
+name: calendar
+version: 0.0.1
+description: >
+  A calendar interface and Gregorian calendar implemenation
+author: Dan Field <dfield@gmail.com>
+homepage: https://github.com/dnfield/dart_calendar
+documentation: tbd
+dependencies:
+dev_dependencies:
+  test: any
