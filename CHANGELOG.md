@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.1.2
+
+- Add class to handle weekday masks
+- Fix bad file references in test/example
+
 ## 0.1.1
 
 - Fix dart analysis issues (remove unused import, fix type issue on compareTo)
