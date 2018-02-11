@@ -1,4 +1,4 @@
-import '../lib/calendar.dart';
+import '../lib/date_calendar.dart';
 import 'dart:collection';
 
 void main() {
@@ -6,7 +6,7 @@ void main() {
   // var d2 = GregorianCalendar.fromInt(1210332);
 
   var days = GregorianCalendar.getWeekdaysFromWeek(
-      new GregorianCalendar(2018, 2, 24), new SplayTreeSet.from([7, 2, 4, 5]));
+      new GregorianCalendar(2018, 2, 24), new WeekdayMask.fromIterable([7, 2, 4, 5]));
   print(days);
   // print(d);
   // for (var day in new MonthIterable(

@@ -1,13 +1,13 @@
 import 'package:test/test.dart';
 
-import '../lib/calendar.dart';
+import '../lib/date_calendar.dart';
 
 void main() {
   test('getWeekdaysFromWeek', () {
-    var weekdaysList = const [7, 2, 4, 5];
+    var weekdaysList = new WeekdayMask.fromIterable(const [7, 2, 4, 5]);
     var days = GregorianCalendar.getWeekdaysFromWeek(
         new GregorianCalendar(2018, 2, 24), weekdaysList);
-    expect(days.length, equals(weekdaysList.length));
+    expect(days.length, equals(weekdaysList.numberOfDaysSelected));
     expect(
         days,
         unorderedEquals([
@@ -24,7 +24,6 @@ void main() {
     expect(nonLeap.yearLength, equals(365));
     expect(nonLeap.dayOfYear, equals(62));
 
-
     nonLeap = nonLeap.addMonths(-1);
     expect(nonLeap.month, equals(2));
     expect(nonLeap.monthLength, equals(28));
@@ -33,7 +32,7 @@ void main() {
     expect(leap.isLeapYear, isTrue);
     expect(leap.yearLength, equals(366));
     expect(leap.dayOfYear, equals(63));
-    
+
     leap = leap.addMonths(-1);
     expect(leap.month, equals(2));
     expect(leap.monthLength, equals(29));

@@ -1,4 +1,5 @@
 import './calendar.dart';
+import './weekday_mask.dart';
 
 const List<int> _daysPerMonth = const [
   31,
@@ -269,12 +270,13 @@ class GregorianCalendar implements Calendar {
   }
 
   static List<GregorianCalendar> getWeekdaysFromWeek(
-      GregorianCalendar base, Iterable<int> weekdays) {
-    if (weekdays == null || weekdays.length == 0) {
+      GregorianCalendar base, WeekdayMask weekdays) {
+    if (weekdays == null || weekdays.hasAny == false) {
       return null;
     }
 
     return weekdays
+        .toIterable()
         .map((weekday) => base.weekday == weekday
             ? base
             : new GregorianCalendar(
