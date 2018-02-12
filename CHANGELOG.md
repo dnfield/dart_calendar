@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.1.3
+
+- Bugfix for `WeekdayMask.fromInteger()`
+
 ## 0.1.2
 
 - Add class to handle weekday masks
