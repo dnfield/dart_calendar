@@ -57,7 +57,9 @@ class WeekdayMask {
       : mask = weekdays?.fold(
                 0,
                 (prev, el) => el != null
-                    ? prev | WeekdayMask.weekdayToMaskVal[el == 0 ? 7 : el]
+                    ? prev |
+                        WeekdayMask
+                            .weekdayToMaskVal[el == 0 ? 7 : el > 7 ? 0 : el]
                     : prev) ??
             0;
 
@@ -84,7 +86,7 @@ class WeekdayMask {
 
   /// Whether or not this mask contains any weekdays (i.e. Mon-Fri)
   bool get hasAnyWeekday => mask & weekdayMask != 0;
-  
+
   /// Whether or not this mask contains any weekend days
   bool get hasAnyWeekend => mask & weekendMask != 0;
 
@@ -99,7 +101,7 @@ class WeekdayMask {
 
   /// Get whether any days are stored in this mask
   bool get hasAny {
-    if (mask == 0) return false; 
+    if (mask == 0) return false;
     for (int maskTest = 0; maskTest < 7; maskTest++) {
       if (mask & (1 << maskTest) != 0) return true;
     }
@@ -107,7 +109,7 @@ class WeekdayMask {
   }
 
   /// Create a new mask with the 1 based weekday set to the value.
-  /// 
+  ///
   /// Passing null for a value will return a copy of this mask.
   WeekdayMask setDay(int weekday, bool value) {
     if (weekday == null || value == null) return new WeekdayMask(mask);
@@ -148,7 +150,6 @@ class WeekdayMask {
   bool isWeekdaySelected(int weekday) {
     return mask & weekdayToMaskVal[weekday] != 0;
   }
-
 
   bool isDayNameSelected(String day,
       {Map<String, int> dayMap = dayNameToMaskVal}) {
