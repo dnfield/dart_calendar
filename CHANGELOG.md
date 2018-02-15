@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.1.5
+
+- Add missing export
+
 ## 0.1.4
 
 - Make calendar iterators more generic friendly
