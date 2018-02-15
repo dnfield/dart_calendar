@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.1.4
+
+- Make calendar iterators more generic friendly
+- Move claendar iterators to their own file
+
 ## 0.1.3
 
 - Bugfix for `WeekdayMask.fromInteger()`
