@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.1.6
+
+- Bug fix in addDays/addMonths
+- Add unit tests for iterators, addDays
+
 ## 0.1.5
 
 - Add missing export

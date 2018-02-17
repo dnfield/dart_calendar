@@ -93,16 +93,15 @@ class GregorianCalendar implements Calendar {
     _day += days ?? 0;
 
     while (_day < 0) {
-      addMonths(-1);
+      _addMonths(-1);
       _day += monthLength - 1;
     }
     while (_day > monthLength - 1) {
       _day -= monthLength;
-      addMonths(1);
+      _addMonths(1);
     }
-
     if (_day < 0 || _day > monthLength - 1) {
-      addDays(0);
+      _addDays(0);
     }
   }
 
@@ -113,10 +112,10 @@ class GregorianCalendar implements Calendar {
   ///   If the day is too large for the month you land on, it is clamped to the last day of the month
   ///     e.g. if you try to land on February 31st by adding 1 month to January 31st in a non-leap year, you land on Feb 28th (Feb 29 on a leap year)
   GregorianCalendar addMonths(int months) {
-    return copy().._addMonths(months);
+    return copy().._addMonths(months, clamp: true);
   }
 
-  void _addMonths(int months) {
+  void _addMonths(int months, {bool clamp: false}) {
     bool wasLastDayInMonth = _day == monthLength - 1;
 
     _month += months ?? 0;
@@ -130,7 +129,7 @@ class GregorianCalendar implements Calendar {
       _year += 1;
     }
 
-    if (wasLastDayInMonth || day > monthLength) {
+    if (clamp && (wasLastDayInMonth || day > monthLength)) {
       _day = monthLength - 1;
     }
   }

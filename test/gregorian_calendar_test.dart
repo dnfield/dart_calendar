@@ -3,6 +3,15 @@ import 'package:test/test.dart';
 import '../lib/date_calendar.dart';
 
 void main() {
+  test('addDays', () {
+    var endOfJan = new GregorianCalendar(2018, 1, 31);
+    expect(endOfJan.addDays(1), equals(new GregorianCalendar(2018, 2, 1)));
+
+    expect(endOfJan.addDays(10), equals(new GregorianCalendar(2018, 2, 10)));
+    expect(endOfJan.addDays(28), equals(new GregorianCalendar(2018, 2, 28)));
+    expect(endOfJan.addDays(29), equals(new GregorianCalendar(2018, 3, 1)));
+  });
+
   test('getWeekdaysFromWeek', () {
     var weekdaysList = new WeekdayMask.fromIterable(const [7, 2, 4, 5]);
     var days = GregorianCalendar.getWeekdaysFromWeek(
