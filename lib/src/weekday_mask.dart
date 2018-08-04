@@ -16,24 +16,24 @@ class WeekdayMask {
 
   /// Get the appropriate bitmask value based on the `DateTime.weekday` value
   static const Map<int, int> weekdayToMaskVal = const {
-    DateTime.MONDAY: mondayMask,
-    DateTime.TUESDAY: tuesdayMask,
-    DateTime.WEDNESDAY: wednesdayMask,
-    DateTime.THURSDAY: thursdayMask,
-    DateTime.FRIDAY: fridayMask,
-    DateTime.SATURDAY: saturdayMask,
-    DateTime.SUNDAY: sundayMask,
+    DateTime.monday: mondayMask,
+    DateTime.tuesday: tuesdayMask,
+    DateTime.wednesday: wednesdayMask,
+    DateTime.thursday: thursdayMask,
+    DateTime.friday: fridayMask,
+    DateTime.saturday: saturdayMask,
+    DateTime.sunday: sundayMask,
   };
 
   /// Get the `DateTime.weekday` value from a mask value
   static const Map<int, int> maskToWeekdayVal = const {
-    mondayMask: DateTime.MONDAY,
-    tuesdayMask: DateTime.TUESDAY,
-    wednesdayMask: DateTime.WEDNESDAY,
-    thursdayMask: DateTime.THURSDAY,
-    fridayMask: DateTime.FRIDAY,
-    saturdayMask: DateTime.SATURDAY,
-    sundayMask: DateTime.SUNDAY,
+    mondayMask: DateTime.monday,
+    tuesdayMask: DateTime.tuesday,
+    wednesdayMask: DateTime.wednesday,
+    thursdayMask: DateTime.thursday,
+    fridayMask: DateTime.friday,
+    saturdayMask: DateTime.saturday,
+    sundayMask: DateTime.sunday,
   };
 
   /// Get the mask value from the EN US weekday string in UPPERCASE
