@@ -8,3 +8,5 @@ documentation:
 dependencies:
 dev_dependencies:
   test: any
+environment:
+  sdk: '>=2.0.0-dev.8.0 <3.0.0'
