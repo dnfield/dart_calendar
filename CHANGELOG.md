@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.2.0
+
+- Change constant names to lower case for compatibility with newer versions of Dart
+- Push minimum SDK constraint up
+
 ## 0.1.6
 
 - Bug fix in addDays/addMonths

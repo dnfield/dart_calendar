@@ -1,7 +1,7 @@
 import './calendar.dart';
 import './weekday_mask.dart';
 
-const List<int> _daysPerMonth = const [
+const List<int> _daysPerMonth = const <int>[
   31,
   28,
   31,
@@ -15,7 +15,7 @@ const List<int> _daysPerMonth = const [
   30,
   31
 ];
-const List<int> _daysInYearPreceedingMonth = const [
+const List<int> _daysInYearPreceedingMonth = const <int>[
   0,
   31,
   59,
@@ -30,24 +30,75 @@ const List<int> _daysInYearPreceedingMonth = const [
   334
 ];
 
-const List<int> _sakamotoHelper = const [0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4];
+const List<int> _sakamotoHelper = const <int>[
+  0,
+  3,
+  2,
+  5,
+  0,
+  3,
+  5,
+  1,
+  4,
+  6,
+  2,
+  4
+];
 
 /// Represents a single day in the Gregorian Calendar
 class GregorianCalendar implements Calendar {
+  /// Setting any of these to null treats them as 1 or 0 (year)
+  GregorianCalendar(int year, [int month = 1, int day = 1]) {
+    if (year < 0) {
+      throw new RangeError('Year must be positive');
+    }
+    if (day == 0) {
+      day = 1;
+    }
+    if (month == 0) {
+      month = 1;
+    }
+    _year = year;
+    _month = 0;
+    _day = 0;
+    _addMonths(month - 1);
+    _addDays(day - 1);
+  }
+
+  /// Parses integer in YYYYMMDD format into Date object
+  ///
+  /// Currently may not behave well with negative numbers?
+  GregorianCalendar.fromInt(int dt)
+      : this(dt ~/ 10000, (dt ~/ 100) % 100, dt % 100);
+
+  /// Creates a new Date object from the [DateTime] passed in.
+  GregorianCalendar.fromDateTime(DateTime dt)
+      : this(dt?.year, dt?.month, dt?.day);
+
+  /// Produces a new Date object from [DateTime] using `now()`
+  GregorianCalendar.now() : this.fromDateTime(new DateTime.now());
+
+  /// Produces a new Date object from [DateTime] using `.now().toUtc()`
+  GregorianCalendar.utc() : this.fromDateTime(new DateTime.now().toUtc());
+
   int _month, _day, _year;
+  @override
   int get month => _month + 1;
+  @override
   int get day => _day + 1;
+  @override
   int get year => _year;
 
   bool get isLeapYear =>
       (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0));
 
   /// The number of days in the year of this date - 366 if leap year
+  @override
   int get yearLength => isLeapYear ? 366 : 365;
 
   /// The number of days in the month of this date
   int get monthLength {
-    int n = _daysPerMonth[_month];
+    final int n = _daysPerMonth[_month];
     if (n != 28) {
       return n;
     }
@@ -57,16 +108,18 @@ class GregorianCalendar implements Calendar {
   /// The integer representation of the day of the week
   ///
   /// Same as DateTime.weekday - 1 = Monday, 7 = Sunday
+  @override
   int get weekday {
-    int y = year - ((month <= 2) ? 1 : 0);
+    final int y = year - ((month <= 2) ? 1 : 0);
 
-    int zeroBased =
+    final int zeroBased =
         (y + y ~/ 4 - y ~/ 100 + y ~/ 400 + _sakamotoHelper[month - 1] + day) %
             7;
     return zeroBased == 0 ? 7 : zeroBased;
   }
 
   /// The day of the year for this date
+  @override
   int get dayOfYear {
     int yearDay = _daysInYearPreceedingMonth[_month] + day;
     if (month >= 2 && isLeapYear) {
@@ -78,6 +131,7 @@ class GregorianCalendar implements Calendar {
   /// Adds weeks * 7 days to this object
   ///
   /// To add fractional parts of a week, use addDays
+  @override
   GregorianCalendar addWeeks(int weeks) {
     return addDays(weeks * 7);
   }
@@ -85,6 +139,7 @@ class GregorianCalendar implements Calendar {
   /// Accepts positive or negative numbers.
   ///
   /// Will update month/year depending on number of days.
+  @override
   GregorianCalendar addDays(int days) {
     return copy().._addDays(days);
   }
@@ -111,12 +166,13 @@ class GregorianCalendar implements Calendar {
   ///   If the day is valid for the month you land on, it doesn't change
   ///   If the day is too large for the month you land on, it is clamped to the last day of the month
   ///     e.g. if you try to land on February 31st by adding 1 month to January 31st in a non-leap year, you land on Feb 28th (Feb 29 on a leap year)
+  @override
   GregorianCalendar addMonths(int months) {
     return copy().._addMonths(months, clamp: true);
   }
 
   void _addMonths(int months, {bool clamp: false}) {
-    bool wasLastDayInMonth = _day == monthLength - 1;
+    final bool wasLastDayInMonth = _day == monthLength - 1;
 
     _month += months ?? 0;
     while (_month < 0) {
@@ -135,42 +191,21 @@ class GregorianCalendar implements Calendar {
   }
 
   /// Adds or removes years
+  @override
   GregorianCalendar addYears(int years) {
     return copy().._year += years;
   }
 
-  /// Setting any of these to null treats them as 1 or 0 (year)
-  GregorianCalendar(int year, [int month = 1, int day = 1]) {
-    if (year < 0) {
-      throw new RangeError('Year must be positive');
-    }
-    if (day == 0) {
-      day = 1;
-    }
-    if (month == 0) {
-      month = 1;
-    }
-    _year = year;
-    _month = 0;
-    _day = 0;
-    _addMonths(month - 1);
-    _addDays(day - 1);
-  }
-
   @override
-  bool operator ==(Object d) {
-    if (identical(this, d)) {
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
       return true;
     }
 
-    if (d == null) {
-      return false;
-    }
-
-    return (d is GregorianCalendar &&
-        d.year == year &&
-        d.month == month &&
-        d.day == day);
+    return other is GregorianCalendar &&
+        other.year == year &&
+        other.month == month &&
+        other.day == day;
   }
 
   @override
@@ -178,7 +213,8 @@ class GregorianCalendar implements Calendar {
     return toInt().hashCode;
   }
 
-  /// determines if this date is before (-1), after (1), or the same (0) as other
+  /// Determines if this date is before (-1), after (1), or the same (0) as other.
+  @override
   int compareTo(Calendar other) {
     if (other is! GregorianCalendar) {
       throw new UnsupportedError(
@@ -194,46 +230,35 @@ class GregorianCalendar implements Calendar {
   }
 
   /// ISO8061 compatible string version with a timestamp of midnight UTC
+  @override
   String toDateTimeString() {
     return '${toString()}T00:00:00Z';
   }
 
   /// Integer representation of this date in YYYYMMDD format, e.g. 20180203
+  @override
   int toInt() {
     return year * 10000 + month * 100 + day;
   }
 
-  /// Parses integer in YYYYMMDD format into Date object
-  ///
-  /// Currently may not behave well with negative numbers?
-  GregorianCalendar.fromInt(int dt)
-      : this(dt ~/ 10000, (dt ~/ 100) % 100, dt % 100);
-
   /// Creates a new [DateTime] in the UTC timezone
+  @override
   DateTime toDateTimeUtc() {
     return new DateTime.utc(year, month, day);
   }
 
   /// Creates a new [DateTime] in the Local timezone
+  @override
   DateTime toDateTimeLocal() {
     return new DateTime(year, month, day);
   }
-
-  /// Creates a new Date object from the [DateTime] passed in.
-  GregorianCalendar.fromDateTime(DateTime dt)
-      : this(dt?.year, dt?.month, dt?.day);
 
   static GregorianCalendar parse(String str) {
     return new GregorianCalendar.fromDateTime(DateTime.parse(str));
   }
 
-  /// Produces a new Date object from [DateTime] using `now()`
-  GregorianCalendar.now() : this.fromDateTime(new DateTime.now());
-
-  /// Produces a new Date object from [DateTime] using `.now().toUtc()`
-  GregorianCalendar.utc() : this.fromDateTime(new DateTime.now().toUtc());
-
   /// create an identical copy of this object
+  @override
   GregorianCalendar copy() {
     return new GregorianCalendar.fromInt(toInt());
   }
@@ -253,7 +278,7 @@ class GregorianCalendar implements Calendar {
     if (nth > 5) {
       return null;
     }
-    var dt = new GregorianCalendar(year, month, 1);
+    final GregorianCalendar dt = new GregorianCalendar(year, month, 1);
     if (dt.weekday < weekday) {
       dt.addDays(weekday - dt.weekday);
     } else if (dt.weekday > weekday) {
@@ -276,7 +301,7 @@ class GregorianCalendar implements Calendar {
 
     return weekdays
         .toIterable()
-        .map((weekday) => base.weekday == weekday
+        .map((int weekday) => base.weekday == weekday
             ? base
             : new GregorianCalendar(
                 base.year, base.month, base.day - base.weekday + weekday))

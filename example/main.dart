@@ -1,12 +1,12 @@
-import '../lib/date_calendar.dart';
-import 'dart:collection';
+import 'package:date_calendar/date_calendar.dart';
 
 void main() {
   //  var d = new GregorianCalendar(2018, 14, 31);
   // var d2 = GregorianCalendar.fromInt(1210332);
 
-  var days = GregorianCalendar.getWeekdaysFromWeek(
-      new GregorianCalendar(2018, 2, 24), new WeekdayMask.fromIterable([7, 2, 4, 5]));
+  final List<GregorianCalendar> days = GregorianCalendar.getWeekdaysFromWeek(
+      new GregorianCalendar(2018, 2, 24),
+      new WeekdayMask.fromIterable(<int>[7, 2, 4, 5]));
   print(days);
   // print(d);
   // for (var day in new MonthIterable(
