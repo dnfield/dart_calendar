@@ -1,3 +1,5 @@
+import './calendar_duration.dart';
+
 /// A day of year object
 abstract class Calendar implements Comparable<Calendar> {
   Calendar(int year, int month, int day);
@@ -35,6 +37,14 @@ abstract class Calendar implements Comparable<Calendar> {
 
   /// Add a year-long period
   Calendar addYears(int years);
+
+  /// Returns a new [Calendar] that is a given [CalendarDuration]
+  /// from this.
+  Calendar addCalendarDuration(CalendarDuration<Calendar> duration);
+
+  /// Calculates the distance of a given [CalendarDuration]
+  /// from this date, in days
+  int daysInCalendarDuration(CalendarDuration<Calendar> duration);
 
   // /// Compare this to another calendar object
   // int compareTo(Calendar other);

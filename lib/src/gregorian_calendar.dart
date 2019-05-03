@@ -1,4 +1,5 @@
 import './calendar.dart';
+import './calendar_duration.dart';
 import './gregorian_calendar_duration.dart';
 import './gregorian_consts.dart';
 import './weekday_mask.dart';
@@ -95,7 +96,13 @@ class GregorianCalendar implements Calendar {
   /// then days and weeks. Because month clamping might affect the 
   /// result, if this is not your desired behavior you will have to
   /// perform the additions seperately.
-  GregorianCalendar addCalendarDuration(GregorianCalendarDuration duration){
+  @override
+  Calendar addCalendarDuration(CalendarDuration<Calendar> duration){
+    if (duration is! GregorianCalendarDuration) {
+      throw new ArgumentError(
+          '`duration` must be a Gregorian Calendar Duration'
+        );
+    }
     return copy()
       .._year += duration.years
       .._addMonths(duration.months, clamp: true)
@@ -104,7 +111,12 @@ class GregorianCalendar implements Calendar {
 
   /// Calculates the distance of a given [GregorianCalendarDuration]
   /// from this date, in days
-  int daysInCalendarDuration(GregorianCalendarDuration duration){
+  int daysInCalendarDuration(CalendarDuration<Calendar> duration){
+    if (duration is! GregorianCalendarDuration) {
+      throw new ArgumentError(
+          '`duration` must be a Gregorian Calendar Duration'
+        );
+    }
     final counterDate = copy();
     int counter = 0;
 
@@ -114,6 +126,7 @@ class GregorianCalendar implements Calendar {
       counterDate._year += 1;
     }
 
+    // Add days for months
     for (int i = 0; i < duration.months; i++){
       counter += counterDate.monthLength;
       counterDate._addMonths(1);
