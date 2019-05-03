@@ -1,49 +1,9 @@
 import './calendar.dart';
+import './gregorian_calendar_duration.dart';
+import './gregorian_consts.dart';
 import './weekday_mask.dart';
 
-const List<int> _daysPerMonth = const <int>[
-  31,
-  28,
-  31,
-  30,
-  31,
-  30,
-  31,
-  31,
-  30,
-  31,
-  30,
-  31
-];
-const List<int> _daysInYearPreceedingMonth = const <int>[
-  0,
-  31,
-  59,
-  90,
-  120,
-  151,
-  180,
-  212,
-  243,
-  273,
-  304,
-  334
-];
 
-const List<int> _sakamotoHelper = const <int>[
-  0,
-  3,
-  2,
-  5,
-  0,
-  3,
-  5,
-  1,
-  4,
-  6,
-  2,
-  4
-];
 
 /// Represents a single day in the Gregorian Calendar
 class GregorianCalendar implements Calendar {
@@ -98,7 +58,7 @@ class GregorianCalendar implements Calendar {
 
   /// The number of days in the month of this date
   int get monthLength {
-    final int n = _daysPerMonth[_month];
+    final int n = daysPerMonth[_month];
     if (n != 28) {
       return n;
     }
@@ -113,7 +73,7 @@ class GregorianCalendar implements Calendar {
     final int y = year - ((month <= 2) ? 1 : 0);
 
     final int zeroBased =
-        (y + y ~/ 4 - y ~/ 100 + y ~/ 400 + _sakamotoHelper[month - 1] + day) %
+        (y + y ~/ 4 - y ~/ 100 + y ~/ 400 + sakamotoHelper[month - 1] + day) %
             7;
     return zeroBased == 0 ? 7 : zeroBased;
   }
@@ -121,19 +81,56 @@ class GregorianCalendar implements Calendar {
   /// The day of the year for this date
   @override
   int get dayOfYear {
-    int yearDay = _daysInYearPreceedingMonth[_month] + day;
+    int yearDay = daysInYearPreceedingMonth[_month] + day;
     if (month >= 2 && isLeapYear) {
       yearDay += 1;
     }
     return yearDay;
   }
 
+  /// Returns a new [GregorianCalendar] that is a given [CalendarDuration]
+  /// from this.
+  /// 
+  /// It first adds years, then months (possibly clamping to month-end),
+  /// then days and weeks. Because month clamping might affect the 
+  /// result, if this is not your desired behavior you will have to
+  /// perform the additions seperately.
+  GregorianCalendar addCalendarDuration(GregorianCalendarDuration duration){
+    return copy()
+      .._year += duration.years
+      .._addMonths(duration.months, clamp: true)
+      ..addDays(duration.days + (duration.weeks * daysPerWeek));
+  }
+
+  /// Calculates the distance of a given [GregorianCalendarDuration]
+  /// from this date, in days
+  int daysInCalendarDuration(GregorianCalendarDuration duration){
+    final counterDate = copy();
+    int counter = 0;
+
+    // Add days for years
+    for(int i = 0; i < duration.years; i++){
+      counter += counterDate.yearLength;
+      counterDate._year += 1;
+    }
+
+    for (int i = 0; i < duration.months; i++){
+      counter += counterDate.monthLength;
+      counterDate._addMonths(1);
+    }
+
+    counter += duration.weeks * daysPerWeek;
+    counter += duration.days;
+    return counter;
+  }
+  
+
   /// Adds weeks * 7 days to this object
   ///
   /// To add fractional parts of a week, use addDays
   @override
   GregorianCalendar addWeeks(int weeks) {
-    return addDays(weeks * 7);
+    return addDays(weeks * daysPerWeek);
   }
 
   /// Accepts positive or negative numbers.
