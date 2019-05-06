@@ -111,6 +111,7 @@ class GregorianCalendar implements Calendar {
 
   /// Calculates the distance of a given [GregorianCalendarDuration]
   /// from this date, in days
+  @override
   int daysInCalendarDuration(CalendarDuration<Calendar> duration){
     if (duration is! GregorianCalendarDuration) {
       throw new ArgumentError(
@@ -135,6 +136,15 @@ class GregorianCalendar implements Calendar {
     counter += duration.weeks * daysPerWeek;
     counter += duration.days;
     return counter;
+  }
+
+  @override
+  CalendarDuration<GregorianCalendar> calculateDurationToDate(Calendar other){
+    return new GregorianCalendarDuration.normalized(
+      years: other.year - year,
+      months: other.month - month,
+      days: other.day - day
+    );
   }
   
 
@@ -205,6 +215,42 @@ class GregorianCalendar implements Calendar {
   GregorianCalendar addYears(int years) {
     return copy().._year += years;
   }
+
+  @override
+  Calendar operator +(CalendarDuration<Calendar> duration){
+    return addCalendarDuration(duration);
+  }
+
+  /// If you subtract another [Calendar] from this, the fucntion
+  /// will return the [CalendarDuration] between the two dates.
+  /// 
+  /// If you subtract a [CalendarDuration] from this, the function
+  /// will return a new Calendar that is the given distance back
+  /// in time.
+  @override
+  dynamic operator -(dynamic other){
+    if (other is GregorianCalendarDuration){
+      return addCalendarDuration(-other);
+    }
+    if (other is GregorianCalendar){
+      return other.calculateDurationToDate(this);
+    }
+    throw UnsupportedError(
+      'You can only subtract GregorianCalendar or GregorianCalendarDuration from GregorianCalendar.'
+    );
+  }
+
+  @override
+  bool operator <(Calendar other) => toInt() < other.toInt();
+
+  @override
+  bool operator <=(Calendar other) => toInt() <= other.toInt();
+
+  @override
+  bool operator >=(Calendar other) => toInt() >= other.toInt();
+
+  @override
+  bool operator >(Calendar other) => toInt() > other.toInt();
 
   @override
   bool operator ==(Object other) {
