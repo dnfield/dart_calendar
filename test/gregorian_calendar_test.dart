@@ -85,4 +85,28 @@ void main() {
   // )) {
   //   print(day);
   // }
+
+
+  test('calculate duration to date', (){
+    expect(
+      new GregorianCalendar(2018, 3, 3).calculateDurationToDate(
+        new GregorianCalendar(2018, 4, 4)
+      ), 
+      new GregorianCalendarDuration(months: 1, days: 1)
+    );
+
+    expect(
+      new GregorianCalendar(2017, 3, 3).calculateDurationToDate(
+        new GregorianCalendar(2018, 6, 4)
+      ), 
+      new GregorianCalendarDuration(years: 1, months: 3, days: 1)
+    );
+
+    expect(
+      new GregorianCalendar(2018, 3, 3).calculateDurationToDate(
+        new GregorianCalendar(2017, 4, 3)
+      ), 
+      new GregorianCalendarDuration(months: -11)
+    );
+  });
 }

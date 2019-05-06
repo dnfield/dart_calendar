@@ -140,6 +140,10 @@ class GregorianCalendar implements Calendar {
 
   @override
   CalendarDuration<GregorianCalendar> calculateDurationToDate(Calendar other){
+    if (other is! GregorianCalendar) throw UnsupportedError(
+      'Cross-Calendar date calculations are not supported, make sure the other date'
+      'is also a GregorianCalendar date'
+    );
     return new GregorianCalendarDuration.normalized(
       years: other.year - year,
       months: other.month - month,
