@@ -220,29 +220,6 @@ class GregorianCalendar implements Calendar {
     return copy().._year += years;
   }
 
-  @override
-  Calendar operator +(CalendarDuration<Calendar> duration){
-    return addCalendarDuration(duration);
-  }
-
-  /// If you subtract another [Calendar] from this, the fucntion
-  /// will return the [CalendarDuration] between the two dates.
-  /// 
-  /// If you subtract a [CalendarDuration] from this, the function
-  /// will return a new Calendar that is the given distance back
-  /// in time.
-  @override
-  dynamic operator -(dynamic other){
-    if (other is GregorianCalendarDuration){
-      return addCalendarDuration(-other);
-    }
-    if (other is GregorianCalendar){
-      return other.calculateDurationToDate(this);
-    }
-    throw UnsupportedError(
-      'You can only subtract GregorianCalendar or GregorianCalendarDuration from GregorianCalendar.'
-    );
-  }
 
   @override
   bool operator <(Calendar other) => toInt() < other.toInt();

@@ -75,15 +75,4 @@ abstract class Calendar implements Comparable<Calendar> {
 
   bool operator >(Calendar other);
 
-  Calendar operator +(CalendarDuration<Calendar> duration);
-
-  /// If you subtract another [Calendar] from this, the fucntion
-  /// will return the [CalendarDuration] between the two dates.
-  /// 
-  /// If you subtract a [CalendarDuration] from this, the function
-  /// will return a new Calendar that is the given distance back
-  /// in time.
-  dynamic operator -(dynamic other);
-
-
 }
