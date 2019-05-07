@@ -162,27 +162,22 @@ void main() {
 
     expect(
       GregorianCalendarDuration(years: 1), 
-      greaterThan(GregorianCalendarDuration(days: 365)),
-      reason: 'A year is technically a little more than 365 days'
+      equals(GregorianCalendarDuration(days: 365)),
+      reason: 'A year is 365 days'
     );
 
-    expect(
-      GregorianCalendarDuration(years: 1), 
-      lessThan(GregorianCalendarDuration(days: 366)),
-      reason: 'A year is technically a little less than 366 days'
-    );
-
-    expect(
-      GregorianCalendarDuration(months: 1), 
-      greaterThan(GregorianCalendarDuration(days: 30)),
-      reason: 'An average month is a little less than 30 days'
+  expect(
+      GregorianCalendarDuration(years: 4), 
+      equals(GregorianCalendarDuration(days: 365 * 4 + 1)),
+      reason: 'A year is 365 days. Out of 4 years, 1 will be a leap year.'
     );
 
     expect(
       GregorianCalendarDuration(months: 1), 
-      lessThan(GregorianCalendarDuration(days: 31)),
-      reason: 'An average month is a little less than 31 days'
+      equals(GregorianCalendarDuration(days: 30)),
+      reason: 'An average month is about 30 days'
     );
+
 
     expect(
         GregorianCalendarDuration(weeks: 1), 
