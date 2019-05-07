@@ -39,9 +39,6 @@ class GregorianCalendarDuration implements CalendarDuration<GregorianCalendar>{
     );
   }
 
-
-
-
   @override
   final int days;
 
@@ -53,8 +50,6 @@ class GregorianCalendarDuration implements CalendarDuration<GregorianCalendar>{
 
   @override
   final int years;
-
-
 
   @override
   GregorianCalendarDuration operator +(CalendarDuration<GregorianCalendar> other){
@@ -86,48 +81,43 @@ class GregorianCalendarDuration implements CalendarDuration<GregorianCalendar>{
     );
   }
 
-
   @override
-  num toComparableNum(){
-    return (years * avgDaysPerYear) + (months * avgDaysPerMonth) + (weeks * daysPerWeek) + days;
+  int toApproxDays(){
+    return ((years * monthsPerYear + months) * avgDaysPerMonth).round() + (weeks * daysPerWeek) + days;
   }
 
   @override
   int compareTo(CalendarDuration<GregorianCalendar> other) {
-    return toComparableNum().compareTo(other.toComparableNum());
+    return toApproxDays().compareTo(other.toApproxDays());
   }
-
 
   @override
   bool operator <(CalendarDuration<GregorianCalendar> other){
-    return toComparableNum() < other.toComparableNum();
+    return toApproxDays() < other.toApproxDays();
   }
 
   @override
   bool operator <=(CalendarDuration<GregorianCalendar> other){
-    return toComparableNum() <= other.toComparableNum();
+    return toApproxDays() <= other.toApproxDays();
   }
 
   @override
   bool operator ==(Object other){
-    return other is CalendarDuration<GregorianCalendar> && toComparableNum() == other.toComparableNum();
+    return other is CalendarDuration<GregorianCalendar> && toApproxDays() == other.toApproxDays();
   }
 
   @override
   bool operator >=(CalendarDuration<GregorianCalendar> other){
-    return toComparableNum() >= other.toComparableNum();
+    return toApproxDays() >= other.toApproxDays();
   }
 
   @override
   bool operator >(CalendarDuration<GregorianCalendar> other){
-    return toComparableNum() > other.toComparableNum();
+    return toApproxDays() > other.toApproxDays();
   }
 
   @override
-  int get hashCode => toComparableNum().hashCode;
-
- 
-
+  int get hashCode => toApproxDays().hashCode;
 
   @override
   GregorianCalendarDuration normalize(){

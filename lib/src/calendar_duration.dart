@@ -35,12 +35,13 @@ abstract class CalendarDuration<TCal extends Calendar> extends Comparable<Calend
   /// years or weeks
   CalendarDuration<TCal> denormalize();
 
-  /// Converts to a num, representing the average number of days
+  /// Converts to an int, representing the estimated number of days
   /// which would be in this duration (taking into account leap years, 
   /// differing month lengths, etc...) which can be used to compare
   /// durations. Because it is based on averages it's not really useful 
-  /// for any other purpose.
-  num toComparableNum();
+  /// for any other purpose. For higher prescision, choose a reference 
+  /// date and use `toDays(referenceDate)`
+  int toApproxDays();
 
 
   /// Converts this duration to an interger representation of the

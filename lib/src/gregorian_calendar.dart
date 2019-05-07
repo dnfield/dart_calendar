@@ -150,7 +150,6 @@ class GregorianCalendar implements Calendar {
       days: other.day - day
     );
   }
-  
 
   /// Adds weeks * 7 days to this object
   ///
@@ -219,7 +218,6 @@ class GregorianCalendar implements Calendar {
   GregorianCalendar addYears(int years) {
     return copy().._year += years;
   }
-
 
   @override
   bool operator <(Calendar other) => toInt() < other.toInt();
