@@ -4,7 +4,7 @@ import './calendar.dart';
 /// added/subtracted from a [Calendar] object. Should be 
 /// seperately implemented for each calendar size to account 
 /// for different month/year sizes.
-abstract class CalendarDuration<TCal extends Calendar> extends Comparable<CalendarDuration<TCal>>{
+abstract class CalendarDuration<TCal extends Calendar>{
 
   int get days;
   int get weeks;
@@ -16,14 +16,6 @@ abstract class CalendarDuration<TCal extends Calendar> extends Comparable<Calend
   CalendarDuration<TCal> operator -(CalendarDuration<TCal> other);
 
   CalendarDuration<TCal> operator -();
-
-  bool operator <(CalendarDuration<TCal> other);
-
-  bool operator <=(CalendarDuration<TCal> other);
-
-  bool operator >=(CalendarDuration<TCal> other);
-
-  bool operator >(CalendarDuration<TCal> other);
 
   /// Returns a new instance in which days will
   /// not be longer than the length of a week, and

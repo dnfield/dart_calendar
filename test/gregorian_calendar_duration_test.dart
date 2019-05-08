@@ -117,7 +117,7 @@ void main() {
     expect(
       GregorianCalendarDuration.fromDays(61 , GregorianCalendar(2020, 3, 17)), 
       equals(twoMonths),
-      reason: 'March has 31 days, April has 61'
+      reason: 'March has 31 days, April has 30'
     );
     
     expect(
@@ -158,43 +158,37 @@ void main() {
   });
 
 
-  test('comparisons', () {
+  test('approximate days', () {
 
     expect(
-      GregorianCalendarDuration(years: 1), 
-      equals(GregorianCalendarDuration(days: 365)),
-      reason: 'A year is 365 days'
+      GregorianCalendarDuration(years: 1).toApproxDays(), 
+      equals(365),
+      reason: 'A typical year is 365 days'
     );
 
   expect(
-      GregorianCalendarDuration(years: 4), 
-      equals(GregorianCalendarDuration(days: 365 * 4 + 1)),
+      GregorianCalendarDuration(years: 4).toApproxDays(), 
+      equals(365 * 4 + 1),
       reason: 'A year is 365 days. Out of 4 years, 1 will be a leap year.'
     );
 
     expect(
-      GregorianCalendarDuration(months: 1), 
-      equals(GregorianCalendarDuration(days: 30)),
+      GregorianCalendarDuration(months: 1).toApproxDays(), 
+      equals(30),
       reason: 'An average month is about 30 days'
     );
 
 
     expect(
-        GregorianCalendarDuration(weeks: 1), 
-        equals(GregorianCalendarDuration(days: 7)),
+        GregorianCalendarDuration(weeks: 1).toApproxDays(), 
+        equals(7),
         reason: 'A week is 7 days'
     );
 
     expect(
-        GregorianCalendarDuration(weeks: 2), 
-        equals(GregorianCalendarDuration(days: 14)),
+        GregorianCalendarDuration(weeks: 2).toApproxDays(), 
+        equals(14),
         reason: 'Two weeks is 14 days'
-    );
-
-    expect(
-        GregorianCalendarDuration(months: 18), 
-        equals(GregorianCalendarDuration(years: 1, months: 6)),
-        reason: 'Eighteen months is a year and a half'
     );
   });
 

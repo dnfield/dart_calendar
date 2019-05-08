@@ -87,37 +87,14 @@ class GregorianCalendarDuration implements CalendarDuration<GregorianCalendar>{
   }
 
   @override
-  int compareTo(CalendarDuration<GregorianCalendar> other) {
-    return toApproxDays().compareTo(other.toApproxDays());
-  }
-
-  @override
-  bool operator <(CalendarDuration<GregorianCalendar> other){
-    return toApproxDays() < other.toApproxDays();
-  }
-
-  @override
-  bool operator <=(CalendarDuration<GregorianCalendar> other){
-    return toApproxDays() <= other.toApproxDays();
-  }
-
-  @override
   bool operator ==(Object other){
-    return other is CalendarDuration<GregorianCalendar> && toApproxDays() == other.toApproxDays();
+    return other is CalendarDuration<GregorianCalendar> 
+      && (years * monthsPerYear + months) == (other.years * monthsPerYear + other.months)
+      && (weeks * daysPerWeek + days) == (other.weeks * daysPerWeek + other.days);
   }
 
   @override
-  bool operator >=(CalendarDuration<GregorianCalendar> other){
-    return toApproxDays() >= other.toApproxDays();
-  }
-
-  @override
-  bool operator >(CalendarDuration<GregorianCalendar> other){
-    return toApproxDays() > other.toApproxDays();
-  }
-
-  @override
-  int get hashCode => toApproxDays().hashCode;
+  int get hashCode => toString().hashCode;
 
   @override
   GregorianCalendarDuration normalize(){
