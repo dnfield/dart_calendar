@@ -94,7 +94,7 @@ class GregorianCalendarDuration implements CalendarDuration<GregorianCalendar>{
   }
 
   @override
-  int get hashCode => toString().hashCode;
+  int get hashCode => ((years * monthsPerYear + months) * 1000 + (weeks * daysPerWeek + days)).hashCode;
 
   @override
   GregorianCalendarDuration normalize(){
