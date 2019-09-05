@@ -10,6 +10,11 @@ void main() {
     expect(endOfJan.addDays(10), equals(new GregorianCalendar(2018, 2, 10)));
     expect(endOfJan.addDays(28), equals(new GregorianCalendar(2018, 2, 28)));
     expect(endOfJan.addDays(29), equals(new GregorianCalendar(2018, 3, 1)));
+
+    final GregorianCalendar startOfSept = new GregorianCalendar(2019, 9, 2);
+    expect(startOfSept.addDays(-1), equals(new GregorianCalendar(2019, 9, 1)));
+    expect(startOfSept.addDays(-2), equals(new GregorianCalendar(2019, 8, 31)));
+    expect(startOfSept.addDays(-3), equals(new GregorianCalendar(2019, 8, 30)));
   });
 
   test('getWeekdaysFromWeek', () {
