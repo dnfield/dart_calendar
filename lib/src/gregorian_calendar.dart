@@ -149,7 +149,7 @@ class GregorianCalendar implements Calendar {
 
     while (_day < 0) {
       _addMonths(-1);
-      _day += monthLength - 1;
+      _day += monthLength;
     }
     while (_day > monthLength - 1) {
       _day -= monthLength;
