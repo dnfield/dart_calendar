@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.2.1
+
+- Fix cases where adding negative days worked incorrectly.
+
 ## 0.2.0
 
 - Change constant names to lower case for compatibility with newer versions of Dart

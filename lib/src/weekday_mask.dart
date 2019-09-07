@@ -2,6 +2,17 @@ import 'dart:core';
 
 /// A helper class to deal with sets of weekdays
 class WeekdayMask {
+  const WeekdayMask(this.mask);
+
+  /// Initialize the bitmask from an iterable.  If null is passed, will initialize it to 0.
+  WeekdayMask.fromIterable(Iterable<int> weekdays)
+      : mask = weekdays?.fold(
+                0,
+                (int prev, int el) => el != null
+                    ? prev | WeekdayMask.weekdayToMaskVal[el == 0 ? 7 : el > 7 ? 0 : el]
+                    : prev) ??
+            0;
+
   static const int mondayMask = 1 << 0;
   static const int tuesdayMask = 1 << 1;
   static const int wednesdayMask = 1 << 2;
@@ -49,19 +60,6 @@ class WeekdayMask {
 
   /// The bitmasked set.  Most callers should use the helper methods to get/set/toggle/etc.
   final int mask;
-
-  const WeekdayMask(this.mask);
-
-  /// Initialize the bitmask from an iterable.  If null is passed, will initialize it to 0.
-  WeekdayMask.fromIterable(Iterable<int> weekdays)
-      : mask = weekdays?.fold(
-                0,
-                (int prev, int el) => el != null
-                    ? prev |
-                        WeekdayMask
-                            .weekdayToMaskVal[el == 0 ? 7 : el > 7 ? 0 : el]
-                    : prev) ??
-            0;
 
   /// Whether or not this mask contains Monday
   bool get monday => isWeekdaySelected(1);
@@ -125,9 +123,8 @@ class WeekdayMask {
       weekday = 7;
     }
 
-    return new WeekdayMask(value == true
-        ? mask & weekdayToMaskVal[weekday]
-        : mask & ~weekdayToMaskVal[weekday]);
+    return new WeekdayMask(
+        value == true ? mask & weekdayToMaskVal[weekday] : mask & ~weekdayToMaskVal[weekday]);
   }
 
   /// See [setDay].  You may pass a custom map of weekday names, where US EN Monday should be 1 and Sunday 7.
@@ -155,8 +152,7 @@ class WeekdayMask {
   }
 
   /// See [toggleDay] and [setDayName].  You may pass a custom map of days if desired.
-  WeekdayMask toggleDayName(String weekdayName,
-      {Map<String, int> dayMap = dayNameToMaskVal}) {
+  WeekdayMask toggleDayName(String weekdayName, {Map<String, int> dayMap = dayNameToMaskVal}) {
     if (weekdayName == null) {
       return new WeekdayMask(mask);
     }
@@ -169,8 +165,7 @@ class WeekdayMask {
     return mask & weekdayToMaskVal[weekday] != 0;
   }
 
-  bool isDayNameSelected(String day,
-      {Map<String, int> dayMap = dayNameToMaskVal}) {
+  bool isDayNameSelected(String day, {Map<String, int> dayMap = dayNameToMaskVal}) {
     return mask & dayMap[day.toUpperCase()] != 0;
   }
 

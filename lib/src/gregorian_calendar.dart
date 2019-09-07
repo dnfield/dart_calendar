@@ -171,7 +171,7 @@ class GregorianCalendar implements Calendar {
     return copy().._addMonths(months, clamp: true);
   }
 
-  void _addMonths(int months, {bool clamp: false}) {
+  void _addMonths(int months, {bool clamp = false}) {
     final bool wasLastDayInMonth = _day == monthLength - 1;
 
     _month += months ?? 0;

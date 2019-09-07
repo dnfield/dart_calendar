@@ -8,10 +8,11 @@ typedef TCal CalendarIteratorIncrementer<TCal extends Calendar>(
 /// Base class for calendar iterables
 abstract class CalendarIterableBase<TCal extends Calendar>
     extends IterableBase<TCal> {
+  CalendarIterableBase(this.start, this.end, {this.increment = 1});
+
   final TCal start;
   final TCal end;
   final int increment;
-  CalendarIterableBase(this.start, this.end, {this.increment = 1});
 }
 
 /// Generic iterator for advancing a date
@@ -37,7 +38,7 @@ class CalendarIterator<TCal extends Calendar> implements Iterator<TCal> {
   final int _increment;
   TCal _current;
   TCal _nextDate;
-  CalendarIteratorIncrementer<TCal> _incrementer;
+  final CalendarIteratorIncrementer<TCal> _incrementer;
 
   @override
   TCal get current => _current;
