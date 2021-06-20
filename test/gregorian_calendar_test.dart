@@ -21,7 +21,7 @@ void main() {
     final WeekdayMask weekdaysList =
         new WeekdayMask.fromIterable(const <int>[7, 2, 4, 5]);
     final List<GregorianCalendar> days = GregorianCalendar.getWeekdaysFromWeek(
-        new GregorianCalendar(2018, 2, 24), weekdaysList);
+        new GregorianCalendar(2018, 2, 24), weekdaysList)!;
     expect(days.length, equals(weekdaysList.numberOfDaysSelected));
     expect(
         days,

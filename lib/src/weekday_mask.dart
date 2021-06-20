@@ -5,11 +5,11 @@ class WeekdayMask {
   const WeekdayMask(this.mask);
 
   /// Initialize the bitmask from an iterable.  If null is passed, will initialize it to 0.
-  WeekdayMask.fromIterable(Iterable<int> weekdays)
+  WeekdayMask.fromIterable(Iterable<int>? weekdays)
       : mask = weekdays?.fold(
                 0,
-                (int prev, int el) => el != null
-                    ? prev | WeekdayMask.weekdayToMaskVal[el == 0 ? 7 : el > 7 ? 0 : el]
+                (int? prev, int? el) => el != null
+                    ? prev! | WeekdayMask.weekdayToMaskVal[el == 0 ? 7 : el > 7 ? 0 : el]!
                     : prev) ??
             0;
 
@@ -115,7 +115,7 @@ class WeekdayMask {
   /// Create a new mask with the 1 based weekday set to the value.
   ///
   /// Passing null for a value will return a copy of this mask.
-  WeekdayMask setDay(int weekday, bool value) {
+  WeekdayMask setDay(int? weekday, bool? value) {
     if (weekday == null || value == null) {
       return new WeekdayMask(mask);
     }
@@ -124,23 +124,23 @@ class WeekdayMask {
     }
 
     return new WeekdayMask(
-        value == true ? mask & weekdayToMaskVal[weekday] : mask & ~weekdayToMaskVal[weekday]);
+        value == true ? mask & weekdayToMaskVal[weekday]! : mask & ~weekdayToMaskVal[weekday]!);
   }
 
   /// See [setDay].  You may pass a custom map of weekday names, where US EN Monday should be 1 and Sunday 7.
-  WeekdayMask setDayName(String weekdayName, bool value,
+  WeekdayMask setDayName(String? weekdayName, bool value,
       {Map<String, int> dayMap = dayNameToMaskVal}) {
     if (weekdayName == null) {
       return new WeekdayMask(mask);
     }
 
     return new WeekdayMask(value == true
-        ? mask & dayMap[weekdayName.toUpperCase()]
-        : mask & ~dayMap[weekdayName.toUpperCase()]);
+        ? mask & dayMap[weekdayName.toUpperCase()]!
+        : mask & ~dayMap[weekdayName.toUpperCase()]!);
   }
 
   /// Creates a new mask with the specified weekday's value toggled from true to false or false to true.
-  WeekdayMask toggleDay(int weekday) {
+  WeekdayMask toggleDay(int? weekday) {
     if (weekday == null) {
       return new WeekdayMask(mask);
     }
@@ -148,25 +148,25 @@ class WeekdayMask {
       weekday = 7;
     }
 
-    return new WeekdayMask(mask ^ weekdayToMaskVal[weekday]);
+    return new WeekdayMask(mask ^ weekdayToMaskVal[weekday]!);
   }
 
   /// See [toggleDay] and [setDayName].  You may pass a custom map of days if desired.
-  WeekdayMask toggleDayName(String weekdayName, {Map<String, int> dayMap = dayNameToMaskVal}) {
+  WeekdayMask toggleDayName(String? weekdayName, {Map<String, int> dayMap = dayNameToMaskVal}) {
     if (weekdayName == null) {
       return new WeekdayMask(mask);
     }
 
-    return new WeekdayMask(mask ^ dayMap[weekdayName.toUpperCase()]);
+    return new WeekdayMask(mask ^ dayMap[weekdayName.toUpperCase()]!);
   }
 
   /// Check whether a particular `DateTime.weekday` is set to true in this mask
   bool isWeekdaySelected(int weekday) {
-    return mask & weekdayToMaskVal[weekday] != 0;
+    return mask & weekdayToMaskVal[weekday]! != 0;
   }
 
   bool isDayNameSelected(String day, {Map<String, int> dayMap = dayNameToMaskVal}) {
-    return mask & dayMap[day.toUpperCase()] != 0;
+    return mask & dayMap[day.toUpperCase()]! != 0;
   }
 
   /// Create an `Iterable<int>` from this mask
