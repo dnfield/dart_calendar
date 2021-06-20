@@ -6,7 +6,7 @@ void main() {
 
   final List<GregorianCalendar> days = GregorianCalendar.getWeekdaysFromWeek(
       new GregorianCalendar(2018, 2, 24),
-      new WeekdayMask.fromIterable(<int>[7, 2, 4, 5]));
+      new WeekdayMask.fromIterable(<int>[7, 2, 4, 5]))!;
   print(days);
   // print(d);
   // for (var day in new MonthIterable(
